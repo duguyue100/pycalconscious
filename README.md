@@ -15,10 +15,12 @@ This repo is developed under:
 + `numpy` 1.6.1
 + `scipy` 0.9.0
 
+__This implementation is carried out based on my own understanding of the method, please point out my errors if there is any__
+
 ##Updates
 
-+ The algorithm of mismatched decoding is updated [2014-09-18 UNTESTED]
-+ Some tests are updated [2014-09-18 NOT FULL TEST EXAMPLE]
++ The algorithm of mismatched decoding is updated [2014-09-18] [2014-09-19 TESTED]
++ Some tests are updated [2014-09-18] [2014-09-19 TESTED]
 
 ##Notes
 
