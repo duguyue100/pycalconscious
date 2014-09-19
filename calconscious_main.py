@@ -1,29 +1,72 @@
 import numpy as np;
-from scipy.linalg import block_diag;
 import calconscious_lib as ccl;
 
 
-### input
+"""
+This test, since I don't have any real data, so I simply use numpy's
+random function to generate Gaussian-like signals to test the correction of implementation.
+
+Xt here is a 8*64 array which consists of 8 samples (X^t)
+Xt_tau is a 8*64 array which consists of 8 samples (X^(t-tau))
+
+I simply divide them in two parts, and
+Mt here is a 4*64*2 array where each part has 4 samples (M^t)
+Mt_tau is a 4*64*2 array where each part has 4 samples (M^(t-tau))
+
+beta is a constant
+
+I didn't perform Gradient descent in this test, but I tested all the functions,
+they are all working right now.
+
+This implementation is carried out based on my understanding,
+please point it out if you find any problems.
+"""
+
 mu, sigma = 0, 0.1;
-x = np.array([np.random.normal(mu, sigma, 64),
-              np.random.normal(mu, sigma, 64)]);
+Xt = np.array([np.random.normal(mu, sigma, 64),
+               np.random.normal(mu, sigma, 64),
+               np.random.normal(mu, sigma, 64),
+               np.random.normal(mu, sigma, 64),
+               np.random.normal(mu, sigma, 64),
+               np.random.normal(mu, sigma, 64),
+               np.random.normal(mu, sigma, 64),
+               np.random.normal(mu, sigma, 64)]);
             
-y = np.array([np.random.normal(mu, sigma, 64),
-              np.random.normal(mu, sigma, 64)]);
+Xt_tau = np.array([np.random.normal(mu, sigma, 64),
+                   np.random.normal(mu, sigma, 64),
+                   np.random.normal(mu, sigma, 64),
+                   np.random.normal(mu, sigma, 64),
+                   np.random.normal(mu, sigma, 64),
+                   np.random.normal(mu, sigma, 64),
+                   np.random.normal(mu, sigma, 64),
+                   np.random.normal(mu, sigma, 64),]);
+              
+
+Mt=np.zeros((4,64,2));
+
+Mt[:,:,0]=np.array([np.random.normal(mu, sigma, 64),
+                    np.random.normal(mu, sigma, 64),
+                    np.random.normal(mu, sigma, 64),
+                    np.random.normal(mu, sigma, 64)]);
+Mt[:,:,1]=np.array([np.random.normal(mu, sigma, 64),
+                    np.random.normal(mu, sigma, 64),
+                    np.random.normal(mu, sigma, 64),
+                    np.random.normal(mu, sigma, 64)]);
+
+Mt_tau=np.zeros((4,64,2));
             
-print ccl.calCovariance(x).T;
+Mt_tau[:,:,0]=np.array([np.random.normal(mu, sigma, 64),
+                        np.random.normal(mu, sigma, 64),
+                        np.random.normal(mu, sigma, 64),
+                        np.random.normal(mu, sigma, 64)]);
+Mt_tau[:,:,1]=np.array([np.random.normal(mu, sigma, 64),
+                        np.random.normal(mu, sigma, 64),
+                        np.random.normal(mu, sigma, 64),
+                        np.random.normal(mu, sigma, 64)]);
+     
 
-print ccl.calConditionalCovariance(x, y);
+beta=0.2;
 
-print np.linalg.det(ccl.calCovariance(x))/np.linalg.det(ccl.calConditionalCovariance(x, y));
+print ccl.calIntegratedInformation(Xt, Xt_tau, Mt, Mt_tau, beta);
 
-z=np.ones((2,2,3));
-print z[:,:,:];
-
-result=z[:,:,0];
-
-for i in range(1,z.shape[2]):
-    result=block_diag(result, z[:,:,i]);
-
-print result;
- 
+print ccl.calDIstarDbeta(Xt, Xt_tau, Mt, Mt_tau, beta);

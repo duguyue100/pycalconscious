@@ -111,7 +111,7 @@ def calDiagCovariance(M):
     
     cM=np.zeros((M.shape[0],M.shape[0],M.shape[2]));
     
-    for i in range(M.shape(2)):
+    for i in range(M.shape[2]):
         cM[:,:,i]=calCovariance(M[:,:,i]);
         
     dM=cM[:,:,0];
@@ -314,7 +314,7 @@ def calDIstarDbeta(Xt, Xt_tau, Mt, Mt_tau, beta):
     
     dI_part1=(1.0/2.0)*np.trace(calCovariance(Xt_tau).dot(dR));
     dI_part2=(1.0/(2.0*np.linalg.det(Q)))*dQdet;
-    dI_part3=(1.0/2.0)*np.log(np.linalg.det(calDiagConditionalCovariance(Xt, Xt_tau)));
+    dI_part3=(1.0/2.0)*np.log(np.linalg.det(calDiagConditionalCovariance(Mt, Mt_tau)));
     dI_part4=Xt.shape[0]/2.0*np.log(2*np.pi);
     
     dI_part5=0;
